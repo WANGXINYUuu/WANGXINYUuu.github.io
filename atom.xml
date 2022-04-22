@@ -6,7 +6,7 @@
   <link href="http://xinyupersonal.com/atom.xml" rel="self"/>
   
   <link href="http://xinyupersonal.com/"/>
-  <updated>2022-04-21T09:52:25.179Z</updated>
+  <updated>2022-04-22T14:39:02.221Z</updated>
   <id>http://xinyupersonal.com/</id>
   
   <author>
@@ -15,6 +15,54 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>评估一个学习算法(WEEK 6)</title>
+    <link href="http://xinyupersonal.com/[object%20Object]/2022/04/22/%E8%AF%84%E4%BC%B0%E4%B8%80%E4%B8%AA%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95(WEEK%206)/"/>
+    <id>http://xinyupersonal.com/[object%20Object]/2022/04/22/%E8%AF%84%E4%BC%B0%E4%B8%80%E4%B8%AA%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95(WEEK%206)/</id>
+    <published>2022-04-22T14:35:39.000Z</published>
+    <updated>2022-04-22T14:39:02.221Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="评估一个学习算法-WEEK-6"><a href="#评估一个学习算法-WEEK-6" class="headerlink" title="评估一个学习算法(WEEK 6)"></a>评估一个学习算法(WEEK 6)</h1><h2 id="评估一个假设"><a href="#评估一个假设" class="headerlink" title="评估一个假设"></a>评估一个假设</h2><p>为了评估一个假设的可靠性，通常将数据集分为训练集和测试集两部分(7:3)，其中训练集用于学习参数，测试集用于评估假设的好坏。<br>测试集的代价函数为：<br>           <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220416145710.png" alt=""></p><h2 id="选择模型以及训练集、验证集、测试集的划分"><a href="#选择模型以及训练集、验证集、测试集的划分" class="headerlink" title="选择模型以及训练集、验证集、测试集的划分"></a>选择模型以及训练集、验证集、测试集的划分</h2><p>考虑到很多多项式模型中会含有不同的次数，为了选择合适的多模型(确定多项式的最高项次数)，我们可以测试不同的模型(最高项次数不同)来看误差结果。因此将数据集分为:训练集、验证集、测试集(6:2:2)</p><p>训练集:学习参数</p><p>验证集:找到最合适的最高此项系数</p><p>测试集:评估泛化误差，即评估模型的好坏</p><p>Q:为什么另外分出一个验证集，而不用测试集去学习多项式的次数d呢？</p><p>A:用测试集学习出d，再用测试集去评估模型，不严谨也不公平</p><h2 id="偏差与方差"><a href="#偏差与方差" class="headerlink" title="偏差与方差"></a>偏差与方差</h2><p>欠拟合——偏差大</p><p>过拟合——方差大</p><p>随着多项式次数d的增加，训练集的误差会越来越小。而验证集的误差会先随着多项式次数d的增加而减小，当d增加到一定程度之后再增加，验证集的误差就会慢慢变大。</p><p>偏差大:训练集和验证集的代价函数都很大</p><p>方差大:训练集的代价函数很小，而验证集的代价函数很大</p><p>​                          <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220416150837.png" alt=""></p><h2 id="正则化与偏差-方差"><a href="#正则化与偏差-方差" class="headerlink" title="正则化与偏差/方差"></a>正则化与偏差/方差</h2><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220416151442.png" alt=""></p><p>为了选择合适的惩罚系数λ和模型，步骤如下:</p><p>1、创建一个λ的列表(集合)</p><p>2、创建有着不同多项式次数d或其他变量的模型</p><p>3、迭代不同的λ的值，并对每一个λ都进行学习，学得参数</p><p>4、抛开惩罚项，在交叉验证集上计算学得参数后模型的代价函数</p><p>5、选出交叉验证集上最小的误差作为最好的一组学习之后的参数</p><p>6、使用这组参数和这组的惩罚项λ，看看在测试集上是否有良好的泛化表现</p><h2 id="绘制学习曲线"><a href="#绘制学习曲线" class="headerlink" title="绘制学习曲线"></a>绘制学习曲线</h2><p>在很小的数据集上训练一个算法很容易得到误差为0的情况，因为我们总可以找到一个二次曲线准确的逼近少量的数据。因此：</p><ul><li>随着训练集的增大，二次曲线拟合的误差会增大</li><li>当训练集增大到一定值之后，误差值会趋近于平缓</li></ul><p>高偏差：</p><p>如果一个学习算法是高偏差的，通过获得更多的训练集没有用</p><p>​                   <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220416152355.png" alt=""></p><p>高方差：</p><p>如果一个学习算法是高方差的，通过获得更多的训练集可能有用</p><p>​                       <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220416152449.png" alt=""></p><h2 id="改进的具体措施"><a href="#改进的具体措施" class="headerlink" title="改进的具体措施"></a>改进的具体措施</h2><p>遇到高方差(high variance)的情况：</p><ol><li>获得更多的训练样本</li><li>将特征数量减少</li><li>增加惩罚项系数λ的值</li></ol><p>遇到高偏差(high bias)的情况：</p><ol><li>增加特征数量</li><li>增加多项式特征</li><li>减少惩罚项系数λ的值</li></ol><p>评估神经网络：</p><ul><li>参数少的网络容易欠拟合，但是计算量小</li><li>参数大的网络容易过拟合，并且计算开销大，但通常可以通过使用正则化(增加惩罚力度)来解决过拟合问题</li></ul><p>模型复杂度的影响：</p><ul><li>复杂度的低的模型有高偏差和低方差，因此模型泛化能力弱</li><li>复杂度高的模型能很好地适合训练集但是在测试集上的表现不尽人意。因此复杂度高的模型在训练集上有低偏差，但方差大</li><li>在实际情况中，要选用一个合适的模型，复杂度正正好且泛化能力优异</li></ul><h1 id="机器学习系统设计-WEEK-6"><a href="#机器学习系统设计-WEEK-6" class="headerlink" title="机器学习系统设计(WEEK 6)"></a>机器学习系统设计(WEEK 6)</h1><h2 id="给接下来的优化工作排优先级"><a href="#给接下来的优化工作排优先级" class="headerlink" title="给接下来的优化工作排优先级"></a>给接下来的优化工作排优先级</h2><p>在机器学习过程中有不同的方式来改进算法</p><ul><li>收集更多的数据</li><li>运用更复杂的特征</li><li>用不同的方法改变算法的输入变量</li></ul><p>具体哪儿种方法好并没有统一的定论，只能根据实际情况而定</p><h2 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h2><p>在解决机器学习问题时推荐的步骤为：</p><ul><li>通过一个简单的算法开始动手，快速的实施并尽早测试</li><li>绘制学习曲线来判断是否需要更多的数据或者特征</li><li>误差分析：人为分析在交叉验证集中产生的错误案例并尝试观察出一些特征或趋势</li></ul><p>通过数值的方式获得误差结果是很重要的，不然的话很难评估算法的优劣</p><h2 id="偏斜类的一些错误度量"><a href="#偏斜类的一些错误度量" class="headerlink" title="偏斜类的一些错误度量"></a>偏斜类的一些错误度量</h2><p>有时候很难说错误率低的算法是一个更好的算法</p><ul><li>For example: In predicting a cancer diagnoses where 0.5% of the examples have cancer, we find our learning algorithm has a 1% error. However, if we were to simply classify every single example as a 0, then our error would reduce to 0.5% even though we did not improve the algorithm</li></ul><p>这种情况常被称作偏斜类，就是在整个数据集中某个类别非常的稀有.</p><p>在这种情况下，使用准确率(accuracy)来评判算法的好坏是不可取的，应该用精确率(Precision)和召回率(Recall)来评估算法的优劣.</p><p>​              <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220416175113.png" alt=""></p><h2 id="在精确率和召回率之间的权衡"><a href="#在精确率和召回率之间的权衡" class="headerlink" title="在精确率和召回率之间的权衡"></a>在精确率和召回率之间的权衡</h2><p>在二分类问题中的阈值大小确定了精确率和召回率的大小。</p><p>选用更高的阈值，导致更高的精确率但是召回率下降</p><p>选用更低的阈值，导致更低的精确率但是召回率上升</p><p>为了更好的做出权衡，引入F值来表征模型的优劣(作为判断的一个依据)，为了使得F值增加，精确率和召回率必须变大</p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220416175502.png" alt=""></p><h2 id="机器学习的数据量"><a href="#机器学习的数据量" class="headerlink" title="机器学习的数据量"></a>机器学习的数据量</h2><p>可以增大数据量的情况：</p><p>1、通过人为的经验判断无法根据输入得出输出值，则需要增大数据量和特征量</p><p>2、当模型具有很多参数的时候，需要通过增大数据量以学习得更准确的参数</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;评估一个学习算法-WEEK-6&quot;&gt;&lt;a href=&quot;#评估一个学习算法-WEEK-6&quot; class=&quot;headerlink&quot; title=&quot;评估一个学习算法(WEEK 6)&quot;&gt;&lt;/a&gt;评估一个学习算法(WEEK 6)&lt;/h1&gt;&lt;h2 id=&quot;评估一个假设&quot;&gt;&lt;a </summary>
+      
+    
+    
+    
+    <category term="学习记录 机器学习" scheme="http://xinyupersonal.com/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="ML学习笔记" scheme="http://xinyupersonal.com/tags/ML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>支持向量机(WEEK 7)</title>
+    <link href="http://xinyupersonal.com/[object%20Object]/2022/04/22/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(WEEK%207)/"/>
+    <id>http://xinyupersonal.com/[object%20Object]/2022/04/22/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(WEEK%207)/</id>
+    <published>2022-04-22T14:25:05.000Z</published>
+    <updated>2022-04-22T14:36:58.890Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="支持向量机-WEEK-7"><a href="#支持向量机-WEEK-7" class="headerlink" title="支持向量机(WEEK 7)"></a>支持向量机(WEEK 7)</h1><h2 id="优化目标"><a href="#优化目标" class="headerlink" title="优化目标"></a>优化目标</h2><p>支持向量机(SVM)是另一种监督机器学习算法，在某些情况下更清楚且更有用。在传统的逻辑回归算法中，使用以下规则：</p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418101010.png" alt=""></p><p>其代价函数为：<br>       <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418101033.png" alt=""></p><p>而<strong>支持向量机</strong>的代价函数为：</p><p>​        <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418101319.png" alt=""></p><p><em>C</em>=1/λ</p><p>目的是优化代价函数，使其最小化</p><p>其中：</p><p>​        <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418101409.png" alt=""></p><h2 id="大间隔分类器"><a href="#大间隔分类器" class="headerlink" title="大间隔分类器"></a>大间隔分类器</h2><p>通常情况下，支持向量机可以看做是<strong>大间隔分类器</strong></p><p>​                           <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418101944.png" alt=""> </p><p>考虑当C非常大的情况下(例如:100,000). 如果C非常大，必须选择参数满足以下条件：</p><p>​                       <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418102319.png" alt=""> </p><p>此时，代价函数简化为：</p><p>​                               <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418102412.png" alt=""></p><p><strong>支持向量机中的决策边界尽可能地同时原理正类和负类</strong>. 间隔被定义==为距离决策边界最近的类到决策边界的距离==，支持向量机优化的目标是使这个间距尽可能的大. 支持向量机将通过大间隔来将正类和负类分割开来. ps: 最大间隔只有当C非常大的时候才会被实现. </p><h2 id="大间隔分类器背后的数学原理"><a href="#大间隔分类器背后的数学原理" class="headerlink" title="大间隔分类器背后的数学原理"></a>大间隔分类器背后的数学原理</h2><p>2范数：表示欧式几何中的距离, 用∣∣<em>v</em>∣∣来表示 </p><p>2个二维向量的点积如下公式所示：</p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418103239.png" alt=""></p><p>其中p为向量v在向量u上的投影. </p><p>同理:</p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418103404.png" alt=""></p><p>此时的优化目标为:</p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418103507.png" alt=""></p><p>所以:</p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418103431.png" alt=""></p><p>为了使得最后的代价函数最小，需要尽可能选择值大的p. </p><h2 id="核函数"><a href="#核函数" class="headerlink" title="核函数"></a>核函数</h2><p><strong>核函数使得我们在使用支持向量机算法的时候能够得到非线性的决策边界(在处理复杂分类问题的时候)</strong></p><p>为简化讨论，仅讨论二维情况.</p><p>对于给定的样本，选定几个固定的参考点，将特征选为<strong>样本与固定参考点的相似度(即样本与固定参考点的欧式几何距离)</strong>. </p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418103937.png" alt=""></p><p>这个similarity函数被称为高斯核函数(最常用的核函数, 当然有其他的核函数但是用的比较少). 这个核函数具体可以展开为如下形式：</p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418104052.png" alt=""></p><p>​                      <img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418104118.png" alt=""></p><p>这样假设就成了如下形式: </p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418104251.png" alt=""></p><p><script type="math/tex">σ^2</script>为高斯核的参数, <script type="math/tex">σ^2</script>大——高偏差，低方差(图像更平缓), <script type="math/tex">σ^2</script>小——低偏差，高方差(图像更陡峭)</p><p>考虑只有3个landmark的情况(即只有三个固定的参考点), 则数据集的特征表征为如下: </p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418104746.png" alt=""></p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418104807.png" alt=""></p><p>优化目标为:</p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418104830.png" alt=""></p><p>核函数并不仅仅可以用于SVM算法，同样也可以应用于逻辑回归算法. 但是由于一些软件包(库函数)对SVM算法的计算优化，在支持向量机中使用核函数会相比于其他算法计算得更快，所以核函数常常用于支持向量机. </p><h3 id="选择SVM的参数"><a href="#选择SVM的参数" class="headerlink" title="选择SVM的参数"></a>选择SVM的参数</h3><ol><li>选择C(C=1/<script type="math/tex">\lambda</script>):<ul><li>如果C很大，得到更高的方差/更低的偏差</li><li>如果C很小，得到更低的方差/更高的偏差</li></ul></li><li>选择<script type="math/tex">\sigma^2</script>:<ul><li>如果<script type="math/tex">\sigma^2</script>大, 特征<script type="math/tex">f~i~</script>平滑地变化, 导致高偏差/低方差</li><li>如果<script type="math/tex">\sigma^2</script>小, 特征<script type="math/tex">f~i~</script>陡峭地变化, 导致低偏差/高方差</li></ul></li></ol><h3 id="使用一个支持向量机"><a href="#使用一个支持向量机" class="headerlink" title="使用一个支持向量机"></a>使用一个支持向量机</h3><p>已经有很多支持向量机的库被创建，在使用的时候只需要学会调用即可，不需要从头造轮子</p><p>在实际的应用中，我们所做的选择有：</p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418105830.png" alt=""></p><p>一些库可能会要求提供核函数</p><p><img src="https://cdn.jsdelivr.net/gh/WANGXINYUuu/picb@main/20220418105925.png" alt=""></p><h3 id="多分类问题"><a href="#多分类问题" class="headerlink" title="多分类问题"></a>多分类问题</h3><p>很多支持向量机的库中已经构建好多分类的框架了. 可以同逻辑回归中的想法一样，使用一对多的方法. </p><h3 id="逻辑回归vs支持向量机"><a href="#逻辑回归vs支持向量机" class="headerlink" title="逻辑回归vs支持向量机"></a>逻辑回归vs支持向量机</h3><p>当特征很多(接近样本数量)的时候, 选择逻辑回归或者线性的支持向量机.</p><p>当特征很少样本数量适中的时候, 选择高斯核函数的支持向量机.</p><p>当特征很少且样本数量很大的时候, 先人为的增加特征, 然后使用逻辑回归或线性的支持向量机.</p><p>第一种情况：我们没有足够的样本数量支持我们去用一个复杂的假设.</p><p>第二种情况：我们有足够的样本数量去支持我们需要一个复杂的假设.</p><p>第三种情况：要增加特征才对得起这么多的样本数量啊！</p><p>ps:神经网络对上述的情况都有可能工作得很好，但是训练的速度很慢.</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;支持向量机-WEEK-7&quot;&gt;&lt;a href=&quot;#支持向量机-WEEK-7&quot; class=&quot;headerlink&quot; title=&quot;支持向量机(WEEK 7)&quot;&gt;&lt;/a&gt;支持向量机(WEEK 7)&lt;/h1&gt;&lt;h2 id=&quot;优化目标&quot;&gt;&lt;a href=&quot;#优化目标&quot; c</summary>
+      
+    
+    
+    
+    <category term="学习记录 机器学习" scheme="http://xinyupersonal.com/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="ML学习笔记" scheme="http://xinyupersonal.com/tags/ML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>一些话留在2021年末</title>
