@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>XINYU&#39;Blog</title>
+  <title>小王的乌托邦</title>
   
   
   <link href="http://xinyupersonal.com/atom.xml" rel="self"/>
@@ -10,7 +10,7 @@
   <id>http://xinyupersonal.com/</id>
   
   <author>
-    <name>XINYU</name>
+    <name>Michael.Wxy</name>
     
   </author>
   
